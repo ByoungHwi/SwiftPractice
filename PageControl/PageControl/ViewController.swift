@@ -22,7 +22,43 @@ class ViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.green
         pageControl.currentPageIndicatorTintColor = UIColor.red
         
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        
+        
         imgView.image = UIImage(named: images[0])
+        
+        
+    }
+    
+    @objc func respondToSwipeGesture(_ gesture: UISwipeGestureRecognizer){
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
+            
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.right:
+                if( pageControl.currentPage > 0) {
+                    pageControl.currentPage -= 1
+                    imgView.image = UIImage(named: images[pageControl.currentPage])
+                }
+                
+            case UISwipeGestureRecognizer.Direction.left:
+                if( pageControl.currentPage < 5) {
+                    pageControl.currentPage += 1
+                    imgView.image = UIImage(named: images[pageControl.currentPage])
+                }
+            default:
+                break
+            }
+            
+            
+        }
+        
     }
 
     @IBAction func pageChange(_ sender: UIPageControl) {
